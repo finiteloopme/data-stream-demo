@@ -1,31 +1,40 @@
 var dashboardApp = angular.module('dashboardApp', ['ngResource']);
 
-dashboardApp.controller('DashboardCtrl', function ($scope) {
+dashboardApp.controller('DashboardCtrl', function($scope, $http, $timeout){
 	
-  $scope.phones = [
-    {'name': 'Nexus S',
-     'snippet': 'Fast just got faster with Nexus S.'},
-    {'name': 'Motorola XOOM™ with Wi-Fi',
-     'snippet': 'The Next, Next Generation tablet.'},
-    {'name': 'MOTOROLA XOOM™',
-     'snippet': 'The Next, Next Generation tablet.'}
-  ];
-  
-});
-
-dashboardApp.controller('CacheCtrl', function($scope, $http, $timeout){
+	$scope.hosturl = 'http://localhost:8080/data-stream-cache/cache/cache';
+	$scope.users = [];
 	
-	(function tick(){
-		$http.get('http://localhost:8080/data-stream-cache/cache/cache/author/kunal/')
+	$scope.getUsers = function(){
+		$http.get($scope.hosturl + '/authors')
+			.success(function(data){
+				$scope.users = data;
+				$timeout(getUsers, 1000);
+			});
+	}
+	
+	$scope.getSearchTerms = function(){
+		$http.get($scope.hosturl + '/search-terms')
+			.success(function(data){
+				$scope.searchTerms = data;
+				$timeout(getSearchTerms, 1000);
+			});
+	}
+	
+	$scope.getAuthorTweets = function(author){
+		$http.get($scope.hosturl + '/author/' + author)
 		.success(function(data){
 			$scope.tweets = data.slice().reverse();
-			$timeout(tick, 1000);
+			$timeout(getAuthorTweets, 1000);
 		})
 		.error(function(data, status){
 			$scope.tweets = 'Big error! ' + status;
-			$timeout(tick, 1000);
+			$timeout(getAuthorTweets, 1000);
 		});
-		
-	})();
+	}
 	
+	$scope.getUsers();	
+	$scope.getSearchTerms();
+	$scope.getAuthorTweets('kunal');
+
 });

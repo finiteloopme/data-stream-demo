@@ -18,6 +18,8 @@ import org.apache.camel.impl.DefaultCamelContext;
 public class CamelRoute {
 
 	private CamelContext camelContext	= null;
+	private final String DATA_STREAM_HOST	= "http://localhost:8080/";
+//	private final String DATA_STREAM_HOST	= "http://cache-kunal.rhcloud.com/";
 	
 	/**
 	 * 
@@ -71,7 +73,7 @@ public class CamelRoute {
 //							+ "\"tweet\":" + "\""  + "${body.text}"  + "\""
 //							+ "}"
 //							+ ""))
-					.to("http://localhost:8080/"
+					.to(DATA_STREAM_HOST
 							+ "data-stream-cache/"
 							+ "cache/"
 							+ "cache/"

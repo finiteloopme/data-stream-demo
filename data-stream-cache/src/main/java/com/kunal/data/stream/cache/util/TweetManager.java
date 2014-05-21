@@ -36,7 +36,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Adds, retrieves, removes new cars from the cache. Also returns a list of cars stored in the cache.
+ * Adds, retrieves, removes new cars from the cache. Also returns a list of cars
+ * stored in the cache.
  * 
  * @author Martin Gencur
  * 
@@ -44,123 +45,136 @@ import java.util.List;
 @Stateless
 @Path("/cache")
 public class TweetManager {
-    public static final String AUTHOR_TO_TWEETS_CACHE = "author-to-tweets-cache";
-    public static final String AUTHOR_TO_TWEETS_KEY = "author";
+	public static final String AUTHOR_TO_TWEETS_CACHE = "author-to-tweets-cache";
+	public static final String AUTHOR_TO_TWEETS_KEY = "author";
 
-    public static final String SEARCH_TO_TWEETS_CACHE = "search-to-tweets-cache";
-    public static final String SEARCH_TO_TWEETS_KEY = "search-term";
-    
-    @Inject
-    private CacheContainerProvider provider;
+	public static final String SEARCH_TO_TWEETS_CACHE = "search-to-tweets-cache";
+	public static final String SEARCH_TO_TWEETS_KEY = "search-term";
 
-    private BasicCache<String, Object> authorToTweetCache;
-    private BasicCache<String, Object> searchToTweetCache;
+	@Inject
+	private CacheContainerProvider provider;
 
-    public TweetManager() {
-//    	authorToTweetCache = provider.getCacheContainer().getCache(AUTHOR_TO_TWEETS_CACHE);
-//    	searchToTweetCache = provider.getCacheContainer().getCache(SEARCH_TO_TWEETS_CACHE);
-    	
-    }
+	private BasicCache<String, Object> authorToTweetCache;
+	private BasicCache<String, Object> searchToTweetCache;
 
-    @GET
-    @Produces("application/json")
-    @Path("/test")
-    public Tweet test() {
-    	Tweet t = new Tweet();
-    	t.setUsername("testingUserName");
-    	t.setSearchCriteria("testingSearchCriteria");
-    	t.setTweet("testingTweet");
-    	newTweet(t);
+	public TweetManager() {
+	}
 
-    	// retrieve a cache
-        searchToTweetCache = provider.getCacheContainer().getCache(SEARCH_TO_TWEETS_CACHE);
-        // retrieve a list of number plates from the cache
-        return ((List <Tweet>) searchToTweetCache.get(encode(t.getSearchCriteria()))).get(0);
-    	
-    }
-    
-    @POST
-    @Consumes("application/json")
-    public void newTweet(Tweet tweet) {
-        authorToTweetCache = provider.getCacheContainer().getCache(AUTHOR_TO_TWEETS_CACHE);
-        List<Tweet> authorTweets = (List<Tweet>) authorToTweetCache.get(TweetManager.encode(tweet.getUsername()));
-        if(authorTweets==null){
-        	authorTweets = new LinkedList<Tweet>();
-        }
-        authorTweets.add(tweet);
-        authorToTweetCache.put(TweetManager.encode(tweet.getUsername()), authorTweets);
-        
-        List<String> authors = getAuthors();
-        if(authors == null)
-        	authors = new LinkedList<String>();
-        authorToTweetCache.put(AUTHOR_TO_TWEETS_KEY, authors);
-        
-        searchToTweetCache = provider.getCacheContainer().getCache(SEARCH_TO_TWEETS_CACHE);
-        List<Tweet> searchTermTweets = (List<Tweet>) searchToTweetCache.get(TweetManager.encode(tweet.getSearchCriteria()));
-        if(searchTermTweets==null){
-        	searchTermTweets = new LinkedList<Tweet>();
-        }
-        searchTermTweets.add(tweet);
-        searchToTweetCache.put(TweetManager.encode(tweet.getSearchCriteria()), searchTermTweets);
-        
-        List<String> searchTerms = getSearchTerms();
-        if (searchTerms == null)
-            searchTerms = new LinkedList<String>();
-        searchTerms.add(tweet.getSearchCriteria());
-        searchToTweetCache.put(SEARCH_TO_TWEETS_KEY, searchTerms);
-        
-        return ;
-    }
+	@GET
+	@Produces("application/json")
+	@Path("/test")
+	public Tweet test() {
+		Tweet t = new Tweet();
+		t.setUsername("testingUserName");
+		t.setSearchCriteria("testingSearchCriteria");
+		t.setTweet("testingTweet");
+		newTweet(t);
 
-    @SuppressWarnings("unchecked")
-    @GET
-    @Produces("application/json")
-    @Path("/search-terms")
-    public List<String> getSearchTerms() {
-        searchToTweetCache = provider.getCacheContainer().getCache(SEARCH_TO_TWEETS_CACHE);
-        return (List<String>) searchToTweetCache.get(SEARCH_TO_TWEETS_KEY);
-    }
+		// retrieve a cache
+		searchToTweetCache = provider.getCacheContainer().getCache(
+				SEARCH_TO_TWEETS_CACHE);
+		// retrieve a list of number plates from the cache
+		return ((List<Tweet>) searchToTweetCache.get(encode(t
+				.getSearchCriteria()))).get(0);
 
-    @SuppressWarnings("unchecked")
-    @GET
-    @Produces("application/json")
-    @Path("/authors")
-    public List<String> getAuthors() {
-        authorToTweetCache = provider.getCacheContainer().getCache(AUTHOR_TO_TWEETS_CACHE);
-        return (List<String>) authorToTweetCache.get(AUTHOR_TO_TWEETS_KEY);
-    }
+	}
 
-    @GET
-    @Produces("application/json")
-    @Path("/author/{author}")
-    public List<Tweet> showTweetsForUser(@PathParam("author") String userName) {
-        authorToTweetCache = provider.getCacheContainer().getCache(AUTHOR_TO_TWEETS_CACHE);
-        return (List<Tweet>) authorToTweetCache.get(encode(userName));
-    }
+	@POST
+	@Consumes("application/json")
+	public void newTweet(Tweet tweet) {
+		authorToTweetCache = provider.getCacheContainer().getCache(
+				AUTHOR_TO_TWEETS_CACHE);
+		List<Tweet> authorTweets = (List<Tweet>) authorToTweetCache
+				.get(TweetManager.encode(tweet.getUsername()));
+		if (authorTweets == null) {
+			authorTweets = new LinkedList<Tweet>();
+		}
+		authorTweets.add(tweet);
+		authorToTweetCache.put(TweetManager.encode(tweet.getUsername()),
+				authorTweets);
 
-    @GET
-    @Produces("application/json")
-    @Path("/search-term/{searchTerm}")
-    public List<Tweet> showTweetsForSearchTerms(@PathParam("searchTerm") String searchTerm) {
-        // retrieve a cache
-        searchToTweetCache = provider.getCacheContainer().getCache(SEARCH_TO_TWEETS_CACHE);
-        // retrieve a list of number plates from the cache
-        return (List <Tweet>) searchToTweetCache.get(encode(searchTerm));
-    }
+		List<String> authors = getAuthors();
+		if (authors == null)
+			authors = new LinkedList<String>();
+		if(!authors.contains(tweet.getUsername()))
+			authors.add(tweet.getUsername());
+		authorToTweetCache.put(AUTHOR_TO_TWEETS_KEY, authors);
 
-    public static String encode(String key) {
-        try {
-            return URLEncoder.encode(key, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+		searchToTweetCache = provider.getCacheContainer().getCache(
+				SEARCH_TO_TWEETS_CACHE);
+		List<Tweet> searchTermTweets = (List<Tweet>) searchToTweetCache
+				.get(TweetManager.encode(tweet.getSearchCriteria()));
+		if (searchTermTweets == null) {
+			searchTermTweets = new LinkedList<Tweet>();
+		}
+		searchTermTweets.add(tweet);
+		searchToTweetCache.put(TweetManager.encode(tweet.getSearchCriteria()),
+				searchTermTweets);
 
-    public static String decode(String key) {
-        try {
-            return URLDecoder.decode(key, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+		List<String> searchTerms = getSearchTerms();
+		if (searchTerms == null)
+			searchTerms = new LinkedList<String>();
+		if(!searchTerms.contains(tweet.getSearchCriteria()))
+			searchTerms.add(tweet.getSearchCriteria());
+		searchToTweetCache.put(SEARCH_TO_TWEETS_KEY, searchTerms);
+
+		return;
+	}
+
+	@SuppressWarnings("unchecked")
+	@GET
+	@Produces("application/json")
+	@Path("/search-terms")
+	public List<String> getSearchTerms() {
+		searchToTweetCache = provider.getCacheContainer().getCache(
+				SEARCH_TO_TWEETS_CACHE);
+		return (List<String>) searchToTweetCache.get(SEARCH_TO_TWEETS_KEY);
+	}
+
+	@SuppressWarnings("unchecked")
+	@GET
+	@Produces("application/json")
+	@Path("/authors")
+	public List<String> getAuthors() {
+		authorToTweetCache = provider.getCacheContainer().getCache(
+				AUTHOR_TO_TWEETS_CACHE);
+		return (List<String>) authorToTweetCache.get(AUTHOR_TO_TWEETS_KEY);
+	}
+
+	@GET
+	@Produces("application/json")
+	@Path("/author/{author}")
+	public List<Tweet> showTweetsForUser(@PathParam("author") String userName) {
+		authorToTweetCache = provider.getCacheContainer().getCache(
+				AUTHOR_TO_TWEETS_CACHE);
+		return (List<Tweet>) authorToTweetCache.get(encode(userName));
+	}
+
+	@GET
+	@Produces("application/json")
+	@Path("/search-term/{searchTerm}")
+	public List<Tweet> showTweetsForSearchTerms(
+			@PathParam("searchTerm") String searchTerm) {
+		// retrieve a cache
+		searchToTweetCache = provider.getCacheContainer().getCache(
+				SEARCH_TO_TWEETS_CACHE);
+		// retrieve a list of number plates from the cache
+		return (List<Tweet>) searchToTweetCache.get(encode(searchTerm));
+	}
+
+	public static String encode(String key) {
+		try {
+			return URLEncoder.encode(key, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static String decode(String key) {
+		try {
+			return URLDecoder.decode(key, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
