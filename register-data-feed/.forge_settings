@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+<activatorChoice>WEB_XML</activatorChoice>
+<rootpath>/users</rootpath>
+<org>
+<jboss>
+<forge>
+<scaffold>
+<angularjs>
+<AngularScaffold_targetDir>/</AngularScaffold_targetDir>
+</angularjs>
+</scaffold>
+</forge>
+</jboss>
+</org>
+</configuration>
