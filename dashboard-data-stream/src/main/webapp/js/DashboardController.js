@@ -1,5 +1,17 @@
 var dashboardApp = angular.module('dashboardApp', ['ngResource']);
 
+//dashboardApp.config(['$routeProvider', function($routeProvider) {
+//    $routeProvider
+//  .when('/Author/:user', {templateUrl:'views/author.html', controller:'AuthorController'})
+//  .otherwise({
+//    redirectTo: '/'
+//  });
+//}]);
+
+//dashboardApp.controller('AuthorController', function($scope, $http, $timeout, $routeParams){
+//	
+//});
+
 dashboardApp.controller('DashboardCtrl', function($scope, $http, $timeout){
 	
 	$scope.hosturl = 'http://localhost:8080/data-stream-cache/cache/cache';
@@ -9,6 +21,7 @@ dashboardApp.controller('DashboardCtrl', function($scope, $http, $timeout){
 		$http.get($scope.hosturl + '/authors')
 			.success(function(data){
 				$scope.users = data;
+				$scope.getAuthorTweets($scope.users[0]);
 				$timeout(getUsers, 1000);
 			});
 	}
@@ -35,6 +48,5 @@ dashboardApp.controller('DashboardCtrl', function($scope, $http, $timeout){
 	
 	$scope.getUsers();	
 	$scope.getSearchTerms();
-	$scope.getAuthorTweets('kunal');
 
 });

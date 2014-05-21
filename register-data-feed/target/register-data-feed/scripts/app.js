@@ -3,7 +3,8 @@
 angular.module('registerdatafeed',['ngRoute','ngResource'])
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider
-      .when('/',{templateUrl:'views/landing.html',controller:'LandingPageController'})
+    	//.when('/',{templateUrl:'views/landing.html',controller:'LandingPageController'})
+      .when('/',{templateUrl:'views/User/search.html',controller:'SearchUserController'})
       .when('/Users',{templateUrl:'views/User/search.html',controller:'SearchUserController'})
       .when('/Users/new',{templateUrl:'views/User/detail.html',controller:'NewUserController'})
       .when('/Users/edit/:UserId',{templateUrl:'views/User/detail.html',controller:'EditUserController'})
