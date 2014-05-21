@@ -10,13 +10,14 @@
   <modules>
     <module>register-data-feed</module>
     <module>data-stream-cache</module>
+    <module>dashboard-data-stream</module>
   </modules>
   <properties>
     <camel.version>2.13.0</camel.version>
-    <javac.source>1.6</javac.source>
-    <javac.target>1.6</javac.target>
     <infinispan.version>6.0.0.Final</infinispan.version>
     <jboss.spec.version>3.0.2.Final</jboss.spec.version>
+    <javac.source>1.6</javac.source>
+    <javac.target>1.6</javac.target>
   </properties>
   <build>
     <pluginManagement>
