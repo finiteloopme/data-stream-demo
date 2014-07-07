@@ -49,12 +49,10 @@ public class CamelRoute {
 						+ "accessToken=229302807-NwkYedrDGdZ4CDxvoRcxVtH8klPqfC9Yxt0fD9Fn" + "&"
 						+ "accessTokenSecret=its7D8zTq8GEgCzxHYeCYt4g9HtswwUFBLwrv0bHjngzJ")
 					.log("\n====================\n" +
-						 //TODO: body.user.screenName
 						 "\tAuthor: ${body.user.screenName}" + "\n" +
 						 "\t-------" + "\n" +
-						 //TODO: body.text
-						 "\t${body.text}" +"\n")
-						 
+						 "\t${body.text}" +"\n");
+						 /*
 					.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 					.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
 					.setBody(body().prepend(""
@@ -67,23 +65,12 @@ public class CamelRoute {
 							+ "\""
 							+ "}"
 							+ ""))
-//					.setBody(constant("{"
-//							+ "\"username\":" + "\"" + username + "\", "
-//							+ "\"searchCriteria\":" + "\"" + searchCriteria + "\", "
-//							+ "\"tweet\":" + "\""  + "${body.text}"  + "\""
-//							+ "}"
-//							+ ""))
 					.to(DATA_STREAM_HOST
 							+ "data-stream-cache/"
 							+ "cache/"
 							+ "cache/"
-//							+ "'{"
-//							+ "\"username\":" + "\"" + username + "\", "
-//							+ "\"searchCriteria\":" + "\"" + searchCriteria + "\", "
-//							+ "\"tweet\":" + "\""  + "${body.text}"  + "\""
-//							+ "}"
 							+ "");
-				
+				*/
 			}
 		});
 		
