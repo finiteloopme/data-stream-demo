@@ -38,12 +38,15 @@ public class CamelRoute {
 			public void configure() throws Exception {
 				from("twitter://"
 						// query type = search
-						+ "search?"
+//						+ "search?"
+						+ "streaming/filter?"
 						// query execution type = polling
 						+ "type=polling" + "&"
 						// poll every 10 sec
 						+ "delay=10" + "&"
-						+ "keywords=" + searchCriteria + "&"
+//						+ "keywords=" + searchCriteria + "&"
+//						+ "locations=-93.27506,44.95789;-93.27257,44.95923" + "&"
+						+ "locations=144.94781,-37.82331;144.98121,-37.80301" + "&"
 						+ "consumerKey=HjLbxF1IoN1bXENLDuMPbJsQT" + "&"
 						+ "consumerSecret=62no3XxjQGrgWzASJXkyoW2L0Rs2Ba6Qi1OWFcwilgzOC1rWwW" + "&"
 						+ "accessToken=229302807-NwkYedrDGdZ4CDxvoRcxVtH8klPqfC9Yxt0fD9Fn" + "&"
@@ -51,7 +54,9 @@ public class CamelRoute {
 					.log("\n====================\n" +
 						 "\tAuthor: ${body.user.screenName}" + "\n" +
 						 "\t-------" + "\n" +
-						 "\t${body.text}" +"\n");
+						 "\t${body.text}" +"\n" +
+						 "\tTweeted at place: ${body.place}\n" +
+						 "\tTweeted at location: ${body.geoLocation}");
 						 /*
 					.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 					.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
