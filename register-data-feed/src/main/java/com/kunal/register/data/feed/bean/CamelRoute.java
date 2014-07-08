@@ -9,6 +9,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.model.dataformat.JsonLibrary;
 
 /**
  * @author kunallimaye
@@ -56,7 +57,9 @@ public class CamelRoute {
 						 "\t-------" + "\n" +
 						 "\t${body.text}" +"\n" +
 						 "\tTweeted at place: ${body.place}\n" +
-						 "\tTweeted at location: ${body.geoLocation}");
+						 "\tTweeted at location: ${body.geoLocation}")
+						 .marshal().json(JsonLibrary.Jackson)
+						 .log("Marshalled to JSON:\n${body}");
 						 /*
 					.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 					.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
