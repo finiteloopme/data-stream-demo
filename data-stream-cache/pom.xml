@@ -34,6 +34,13 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.jboss.shrinkwrap.resolver</groupId>
+				<artifactId>shrinkwrap-resolver-depchain</artifactId>
+				<version>2.0.0</version>
+				<scope>test</scope>
+				<type>pom</type>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
@@ -100,6 +107,11 @@
 			<artifactId>cxf-rt-transports-http-hc</artifactId>
 			<!-- 2.7.8 or 3.0.0-milestone1 -->
 			<version>3.0.0-milestone1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

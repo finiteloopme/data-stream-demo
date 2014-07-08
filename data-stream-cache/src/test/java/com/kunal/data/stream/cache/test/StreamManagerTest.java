@@ -1,4 +1,4 @@
-package com.kunal.data.strea.cache.test;
+package com.kunal.data.stream.cache.test;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
