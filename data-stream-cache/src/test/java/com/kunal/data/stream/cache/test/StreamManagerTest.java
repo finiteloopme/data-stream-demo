@@ -1,5 +1,12 @@
 package com.kunal.data.stream.cache.test;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
@@ -29,6 +36,10 @@ import com.kunal.data.stream.cache.util.StreamManager;
 public class StreamManagerTest {
 	@Inject
 	private StreamManager streamManager;
+	
+//	File file = new File(
+//			this.getClass().getClassLoader().getResource("/tweet-event.json").getFile()
+//			);
 
 	@Deployment
 	public static Archive<?> createDeployment() {
@@ -41,6 +52,7 @@ public class StreamManagerTest {
 				.addClass(StatisticsProvider.class)
 				.addClass(StreamManager.class)
 				.addAsWebInfResource("web.xml")
+				.addAsResource("tweet-event.json")
 				.addAsLibraries(Maven.resolver().resolve(
 						"org.infinispan:infinispan-core:6.0.0.Final",
 						"com.thetransactioncompany:cors-filter:1.3.2",
@@ -84,8 +96,15 @@ public class StreamManagerTest {
 	
 	@Test
 	@RunAsClient
-	public void testGetCache(){
+	public void testGetCache() throws IOException{
 		
+//		FileInputStream fis = new FileInputStream(file);
+//		byte[] data = new byte[(int)file.length()];
+//	    fis.read(data);
+//	    fis.close();
+//	    String sData = new String(data);
+//	    
+//		WebClient client = WebClient.create("http://localhost:8080/stream-manager-test/cache/streaming-data/new-event/testK2/" + sData);
 		WebClient client = WebClient.create("http://localhost:8080/stream-manager-test/cache/streaming-data/new-event/testK2/testED2");
 		client.type("application/json").accept("application/json");
 		Response response = client.post(null);
