@@ -65,15 +65,17 @@ public class LocationEndpointTest {
 		Assert.assertNotNull(locationService);
 	}
 	
-//	@Test
-//	@RunAsClient
-//	public void testInsertTweet(){
-//		
-//		WebClient client = WebClient.create("http://localhost:8080/stream-manager-test/cache/streaming-data/test");
-//		client.type("application/json").accept("application/json");
-//		Response response = client.get();
-//		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-//	}
+	@Test
+	public void testCreateLocation() throws Exception{
+		Location location = new Location();
+		location.setLeftAsLongitude((long)144.94781);
+		location.setBottomAsLatitude((long)-37.82331);
+		location.setRightAsLongitude((long)144.98121);
+		location.setTopAsLatitude((long)-37.80301);
+		Response response = locationService.create(location);
+		
+		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+	}
 	
 	
 //	@Test

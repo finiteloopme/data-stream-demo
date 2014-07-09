@@ -35,9 +35,9 @@ public class LocationEndpoint {
 		
 		camelRoute.configure(
 				//Need to use string concat 
-				location.getLeftAsLongitude() + ""
-				+ location.getBottomAsLatitude() + ""
-				+location.getRightAsLongitude() + ""
+				location.getLeftAsLongitude() + ","
+				+ location.getBottomAsLatitude() + ";"
+				+location.getRightAsLongitude() + ","
 				+ location.getTopAsLatitude() + ""
 				);
 		em.persist(location);
