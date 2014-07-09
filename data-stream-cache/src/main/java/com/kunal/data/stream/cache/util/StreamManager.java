@@ -18,7 +18,6 @@ package com.kunal.data.stream.cache.util;
 
 import org.infinispan.commons.api.BasicCache;
 
-import com.kunal.data.stream.cache.Tweet;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -30,11 +29,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -54,7 +51,7 @@ public class StreamManager {
 	@Inject
 	private Logger logger;
 
-	private static final String PARENT_CACHE_LIST = "parent-cache-list";
+//	private static final String PARENT_CACHE_LIST = "parent-cache-list";
 	private static final String PARENT_CACHE_LIST_KEY = "parent-cache-list-key";
 
 	public StreamManager() {
@@ -85,33 +82,39 @@ public class StreamManager {
 	public Response newEvent(@PathParam("key") String key,
 							@PathParam("eventData") String eventData){
 	
+		logger.info("===: newEvent(" + key +"," + eventData +  ") :===");
 		List<String> keys = this.getAllKeys();
 		if(!keys.contains(key)){
-			BasicCache<String, String> cache = this.getCachePOJO(PARENT_CACHE_LIST);
-			cache.put(PARENT_CACHE_LIST_KEY, key);
+			putKeyAndValueIntoCache(PARENT_CACHE_LIST_KEY, key);
 		}
-		BasicCache<String, String> cache = this.getCachePOJO(key);
-		cache.put(key, eventData);
+		
+		putKeyAndValueIntoCache(key,  eventData);
 		
 		//TODO: change to created()
 		return Response.ok().build();
+	}
+	
+	private BasicCache<String, List<String>> putKeyAndValueIntoCache(String key, String value){
+		BasicCache<String, List<String>> cache = this.getCachePOJO(key);
+		List<String> events = cache.get(key);
+		if(events == null){
+			events = new ArrayList<String>();
+		}
+		events.add(value);
+		cache.put(key, events);
+		
+		return cache;
 	}
 
 	@GET
 	@Produces("application/json")
 	@Path("/keys")
 	public List<String> getAllKeys(){
-		BasicCache<String, String> cache = 
-				provider.getCacheContainer().getCache(PARENT_CACHE_LIST);
-		
-		List<String> keys = (cache==null || cache.values()==null) ? 
-				new ArrayList<String>() : 
-					new ArrayList<String>((cache.values()));
-		logger.info(keys.toString());
-		return keys;
+		logger.info("===: getAllKeys() :===");
+		return getCache(PARENT_CACHE_LIST_KEY);
 	}
 	
-	private BasicCache<String, String> getCachePOJO(String key){
+	private BasicCache<String, List<String>> getCachePOJO(String key){
 		return provider.getCacheContainer().getCache(key);
 	}
 	
@@ -119,13 +122,37 @@ public class StreamManager {
 	@Produces("application/json")
 	@Path("/key/{key}")
 	public List<String> getCache(@PathParam("key") String key){
-		BasicCache<String, String> cache = this.getCachePOJO(key);
-		List<String> values = (cache==null || cache.values()==null) ? 
-				new ArrayList<String>() : 
-					new ArrayList<String>(cache.values());
+		
+		List<String> values = new ArrayList<String>();;  
+		logger.info("===: getCache(" + key + ") :===");
+		BasicCache<String, List<String>> cache = this.getCachePOJO(key);
+		
+		if(cache!=null && !cache.isEmpty()){
+			logger.info("Cache has " + cache.keySet().size() +  " number of keys");
+			logger.info("Cache has " + cache.values().size() +  " number of values");
+			Iterator<String> iterator = cache.keySet().iterator();
+			while(iterator.hasNext()){
+				values.addAll(convertCollectionToList(cache.get(iterator.next())));
+			}
+		}
+				
 		logger.info(values.toString());
 		
 		return values;
+	}
+	
+	private List<String> convertCollectionToList(Collection<String> collection){
+		List<String> list;
+		if(collection==null){
+			collection = new ArrayList<String>();
+		}
+		if(collection instanceof List){
+			list = (List<String>) collection;
+		}
+		else{
+			list = new ArrayList<String>(collection);
+		}
+		return list;
 	}
 	
 }

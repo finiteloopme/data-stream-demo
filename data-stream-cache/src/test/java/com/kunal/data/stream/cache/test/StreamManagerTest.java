@@ -28,7 +28,7 @@ import com.kunal.data.stream.cache.util.StreamManager;
 @RunWith(Arquillian.class)
 public class StreamManagerTest {
 	@Inject
-	private StreamManager streamManger;
+	private StreamManager streamManager;
 
 	@Deployment
 	public static Archive<?> createDeployment() {
@@ -51,7 +51,7 @@ public class StreamManagerTest {
 
 	@Test
 	public void testIsDeployed() {
-		Assert.assertNotNull(streamManger);
+		Assert.assertNotNull(streamManager);
 	}
 	
 //	@Test
@@ -64,11 +64,19 @@ public class StreamManagerTest {
 //		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 //	}
 	
+	
+	@Test
+	public void testNewEvent1(){
+
+		Assert.assertEquals(Response.Status.OK.getStatusCode(), streamManager.newEvent("k1", "e1").getStatus());
+	}
+	
+	
 	@Test
 	@RunAsClient
 	public void testNewEvent(){
 		
-		WebClient client = WebClient.create("http://localhost:8080/stream-manager-test/cache/streaming-data/new-event/testK/testED");
+		WebClient client = WebClient.create("http://localhost:8080/stream-manager-test/cache/streaming-data/new-event/testK1/testED1");
 		client.type("application/json").accept("application/json");
 		Response response = client.post(null);
 		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -78,9 +86,13 @@ public class StreamManagerTest {
 	@RunAsClient
 	public void testGetCache(){
 		
-		WebClient client = WebClient.create("http://localhost:8080/stream-manager-test/cache/streaming-data/key/testK");
+		WebClient client = WebClient.create("http://localhost:8080/stream-manager-test/cache/streaming-data/new-event/testK2/testED2");
 		client.type("application/json").accept("application/json");
-		Response response = client.get();
+		Response response = client.post(null);
+		
+		client = WebClient.create("http://localhost:8080/stream-manager-test/cache/streaming-data/key/testK2");
+		client.type("application/json").accept("application/json");
+		response = client.get();
 //		System.out.println("OUTPUT: " + response.toString());
 		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 	}
