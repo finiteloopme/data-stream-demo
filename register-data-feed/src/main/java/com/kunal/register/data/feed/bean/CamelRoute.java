@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
+import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.model.dataformat.JsonLibrary;
@@ -30,6 +31,45 @@ public class CamelRoute {
 		
 	}
 	
+	public void configure(final String location) throws Exception{
+		camelContext.addRoutes(new RouteBuilder() {
+			
+			@Override
+			public void configure() throws Exception {
+				from("twitter://"
+						+ "streaming/filter?"
+						// query execution type = polling
+						+ "type=polling" + "&"
+						// poll every 10 sec
+						+ "delay=10" + "&"
+						+ "locations=" + location
+						+ "" + "&"
+						+ "consumerKey=HjLbxF1IoN1bXENLDuMPbJsQT" + "&"
+						+ "consumerSecret=62no3XxjQGrgWzASJXkyoW2L0Rs2Ba6Qi1OWFcwilgzOC1rWwW" + "&"
+						+ "accessToken=229302807-NwkYedrDGdZ4CDxvoRcxVtH8klPqfC9Yxt0fD9Fn" + "&"
+						+ "accessTokenSecret=its7D8zTq8GEgCzxHYeCYt4g9HtswwUFBLwrv0bHjngzJ")
+					.log("\n====================\n" +
+						 "\tAuthor: ${body.user.screenName}" + "\n" +
+						 "\t-------" + "\n" +
+						 "\t${body.text}" +"\n" +
+						 "\tTweeted at place: ${body.place}\n" +
+						 "\tTweeted at location: ${body.geoLocation}")
+						 .marshal().json(JsonLibrary.Jackson)
+						 .log("Marshalled to JSON:\n${body}");
+//					.setHeader(Exchange.HTTP_METHOD, constant("POST"))
+//					.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+//					.to(DATA_STREAM_HOST
+//							+ "data-stream-cache/"
+//							+ "cache/"
+//							+ "streaming-data/"
+//							+ "new-event/"
+//							+ "${body.place}/"
+//							+ "${body}");
+			}
+		});
+	}
+	
+//	public void configure(final String username, final String searchCriteria)
 	public void configure(final String username, final String searchCriteria)
 		throws Exception{
 		
@@ -46,7 +86,6 @@ public class CamelRoute {
 						// poll every 10 sec
 						+ "delay=10" + "&"
 //						+ "keywords=" + searchCriteria + "&"
-//						+ "locations=-93.27506,44.95789;-93.27257,44.95923" + "&"
 						+ "locations=144.94781,-37.82331;144.98121,-37.80301" + "&"
 						+ "consumerKey=HjLbxF1IoN1bXENLDuMPbJsQT" + "&"
 						+ "consumerSecret=62no3XxjQGrgWzASJXkyoW2L0Rs2Ba6Qi1OWFcwilgzOC1rWwW" + "&"
@@ -59,26 +98,24 @@ public class CamelRoute {
 						 "\tTweeted at place: ${body.place}\n" +
 						 "\tTweeted at location: ${body.geoLocation}")
 						 .marshal().json(JsonLibrary.Jackson)
-						 .log("Marshalled to JSON:\n${body}");
-						 /*
+						 .log("Marshalled to JSON:\n${body}")
 					.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 					.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-					.setBody(body().prepend(""
-								+ "{"
-								+ "\"username\":" + "\"" + username + "\", "
-								+ "\"searchCriteria\":" + "\"" + searchCriteria + "\", "
-								+ "\"tweet\":" + "\""
-								+ ""))
-					.setBody(body().append(""
-							+ "\""
-							+ "}"
-							+ ""))
+//					.setBody(body().prepend(""
+//								+ "{"
+//								+ "\"username\":" + "\"" + username + "\", "
+//								+ "\"searchCriteria\":" + "\"" + searchCriteria + "\", "
+//								+ "\"tweet\":" + "\""
+//								+ ""))
+//					.setBody(body().append(""
+//							+ "\""
+//							+ "}"
+//							+ ""))
 					.to(DATA_STREAM_HOST
 							+ "data-stream-cache/"
 							+ "cache/"
 							+ "cache/"
 							+ "");
-				*/
 			}
 		});
 		
