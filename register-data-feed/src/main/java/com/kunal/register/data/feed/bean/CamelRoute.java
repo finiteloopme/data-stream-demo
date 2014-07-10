@@ -20,7 +20,7 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 public class CamelRoute {
 
 	private CamelContext camelContext	= null;
-	private final String DATA_STREAM_HOST	= "http://streaming-kunal.rhcloud.com/";
+	private final String DATA_STREAM_HOST	= "http4://streaming-kunal.rhcloud.com/";
 //	private final String DATA_STREAM_HOST	= "http://localhost:8080/";
 	
 	/**
