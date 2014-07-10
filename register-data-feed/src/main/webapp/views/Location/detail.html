@@ -1,0 +1,44 @@
+<header ng-switch on="$location.path().indexOf('/Locations/new') > -1">
+    <h3 ng-switch-when="true">Create a new Location</h3>
+    <h3 ng-switch-when="false">View or edit Location</h3>
+</header>
+<form id="LocationForm" name="LocationForm" class="form-horizontal" role="form">
+    <div ng-show="displayError" class="alert alert-danger">
+        <strong>Error!</strong> Something broke. Retry, or cancel and start afresh.
+    </div>
+    <div class="form-group" ng-class="{'has-error': LocationForm.leftAsLongitude.$invalid}">
+        <label for="leftAsLongitude" class="col-sm-2 control-label">Left As Longitude</label>
+        <div id="leftAsLongitudeControls" class="col-sm-10">
+            <input id="leftAsLongitude" name="leftAsLongitude" form-control" ng-model="location.leftAsLongitude" placeholder="Enter the Location Left As Longitude"></input>
+            <span class="help-block error" ng-show="LocationForm.leftAsLongitude.$error.number">not a number</span>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': LocationForm.bottomAsLatitude.$invalid}">
+        <label for="bottomAsLatitude" class="col-sm-2 control-label">Bottom As Latitude</label>
+        <div id="bottomAsLatitudeControls" class="col-sm-10">
+            <input id="bottomAsLatitude" name="bottomAsLatitude" class="form-control" ng-model="location.bottomAsLatitude" placeholder="Enter the Location Bottom As Latitude"></input>
+            <span class="help-block error" ng-show="LocationForm.bottomAsLatitude.$error.number">not a number</span>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': LocationForm.rightAsLongitude.$invalid}">
+        <label for="rightAsLongitude" class="col-sm-2 control-label">Right As Longitude</label>
+        <div id="rightAsLongitudeControls" class="col-sm-10">
+            <input id="rightAsLongitude" name="rightAsLongitude" class="form-control" ng-model="location.rightAsLongitude" placeholder="Enter the Location Right As Longitude"></input>
+            <span class="help-block error" ng-show="LocationForm.rightAsLongitude.$error.number">not a number</span>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': LocationForm.topAsLatitude.$invalid}">
+        <label for="topAsLatitude" class="col-sm-2 control-label">Top As Latitude</label>
+        <div id="topAsLatitudeControls" class="col-sm-10">
+            <input id="topAsLatitude" name="topAsLatitude" class="form-control" ng-model="location.topAsLatitude" placeholder="Enter the Location Top As Latitude"></input>
+            <span class="help-block error" ng-show="LocationForm.topAsLatitude.$error.number">not a number</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveLocation" name="saveLocation" class="btn btn-primary" ng-disabled="isClean() || LocationForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteLocation" name="deleteLocation" class="btn btn-danger" ng-show="location.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    <div>
+</form>

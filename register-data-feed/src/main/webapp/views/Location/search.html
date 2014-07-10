@@ -1,0 +1,76 @@
+<div class="form-horizontal">
+    <h3>Create a new Location</h3>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-sm-2">
+            <a id="Create" name="Create" class="btn btn-primary" href="#/Locations/new"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+        </div>
+    </div>
+</div>
+<hr/>
+<div>
+    <h3>Search for Locations</h3>
+    <form id="LocationSearch" class="form-horizontal">
+    <div class="form-group">
+        <label for="leftAsLongitude" class="col-sm-2 control-label">Left As Longitude</label>
+        <div class="col-sm-10">
+            <input id="leftAsLongitude" name="leftAsLongitude" class="form-control" type="text" ng-model="search.leftAsLongitude" placeholder="Enter the Location Left As Longitude"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="bottomAsLatitude" class="col-sm-2 control-label">Bottom As Latitude</label>
+        <div class="col-sm-10">
+            <input id="bottomAsLatitude" name="bottomAsLatitude" class="form-control" type="text" ng-model="search.bottomAsLatitude" placeholder="Enter the Location Bottom As Latitude"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="rightAsLongitude" class="col-sm-2 control-label">Right As Longitude</label>
+        <div class="col-sm-10">
+            <input id="rightAsLongitude" name="rightAsLongitude" class="form-control" type="text" ng-model="search.rightAsLongitude" placeholder="Enter the Location Right As Longitude"></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="topAsLatitude" class="col-sm-2 control-label">Top As Latitude</label>
+        <div class="col-sm-10">
+            <input id="topAsLatitude" name="topAsLatitude" class="form-control" type="text" ng-model="search.topAsLatitude" placeholder="Enter the Location Top As Latitude"></input>
+        </div>
+    </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-sm-10">
+                <a id="Search" name="Search" class="btn btn-primary" ng-click="performSearch()"><span class="glyphicon glyphicon-search"></span> Search</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="search-results">
+    <div class="table-responsive">
+        <table class="table table-responsive table-bordered table-striped clearfix">
+            <thead>
+                <tr>
+                    <th>Left As Longitude</th>
+                    <th>Bottom As Latitude</th>
+                    <th>Right As Longitude</th>
+                    <th>Top As Latitude</th>
+                </tr>
+            </thead>
+            <tbody id="search-results-body">
+                <tr ng-repeat="result in searchResults | searchFilter:searchResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+                    <td><a href="#/Locations/edit/{{result.id}}">{{result.leftAsLongitude}}</a></td>
+                    <td><a href="#/Locations/edit/{{result.id}}">{{result.bottomAsLatitude}}</a></td>
+                    <td><a href="#/Locations/edit/{{result.id}}">{{result.rightAsLongitude}}</a></td>
+                    <td><a href="#/Locations/edit/{{result.id}}">{{result.topAsLatitude}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ul class="pagination pagination-centered">
+        <li ng-class="{disabled:currentPage == 0}">
+            <a id="prev" href ng-click="previous()">??</a>
+        </li>
+        <li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+            <a href ng-bind="n + 1">1</a>
+        </li>
+        <li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+            <a id="next" href ng-click="next()">??</a>
+        </li>
+    </ul>
+</div>
