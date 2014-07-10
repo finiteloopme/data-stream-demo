@@ -18,6 +18,24 @@ public class Tweet implements Serializable {
 
 	private String username;
 	private String searchCriteria;
+	private String place;
+	private String geoPosition;
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+
+	public String getGeoPosition() {
+		return geoPosition;
+	}
+
+	public void setGeoPosition(String geoPosition) {
+		this.geoPosition = geoPosition;
+	}
+
 	private String tweet;
 
 	public Tweet() {

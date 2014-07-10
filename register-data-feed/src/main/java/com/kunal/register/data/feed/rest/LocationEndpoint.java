@@ -30,8 +30,8 @@ public class LocationEndpoint {
 
 	@POST
 	@Consumes("application/json")
-	@Path("/new/{location}")
-	public Response create(@PathParam("location") Location location) throws Exception {
+//	@Path("/new/{location}")
+	public Response create(Location location) throws Exception {
 		
 		camelRoute.configure(
 				//Need to use string concat 
@@ -40,6 +40,7 @@ public class LocationEndpoint {
 				+location.getRightAsLongitude() + ","
 				+ location.getTopAsLatitude() + ""
 				);
+		
 		em.persist(location);
 		return Response.created(
 				UriBuilder.fromResource(LocationEndpoint.class)

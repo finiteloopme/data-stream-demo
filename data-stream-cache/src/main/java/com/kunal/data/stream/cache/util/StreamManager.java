@@ -18,7 +18,6 @@ package com.kunal.data.stream.cache.util;
 
 import org.infinispan.commons.api.BasicCache;
 
-
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -27,6 +26,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import java.util.ArrayList;
@@ -83,6 +83,23 @@ public class StreamManager {
 							@PathParam("eventData") String eventData){
 	
 		logger.info("===: newEvent(" + key +"," + eventData +  ") :===");
+		List<String> keys = this.getAllKeys();
+		if(!keys.contains(key)){
+			putKeyAndValueIntoCache(PARENT_CACHE_LIST_KEY, key);
+		}
+		
+		putKeyAndValueIntoCache(key,  eventData);
+		
+		//TODO: change to created()
+		return Response.ok().build();
+	}
+	
+	@POST
+	@Consumes("application/json")
+	@Path("/new-eventt/{location}")
+	public Response newEventT(@PathParam("location") String key, String eventData){
+	
+		logger.info("===: newEventT(" + key +"," + eventData +  ") :===");
 		List<String> keys = this.getAllKeys();
 		if(!keys.contains(key)){
 			putKeyAndValueIntoCache(PARENT_CACHE_LIST_KEY, key);

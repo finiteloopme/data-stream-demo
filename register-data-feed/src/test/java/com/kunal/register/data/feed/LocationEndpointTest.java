@@ -85,15 +85,20 @@ public class LocationEndpointTest {
 //	}
 //	
 //	
-//	@Test
-//	@RunAsClient
-//	public void testNewEvent(){
-//		
-//		WebClient client = WebClient.create("http://localhost:8080/stream-manager-test/cache/streaming-data/new-event/testK1/testED1");
-//		client.type("application/json").accept("application/json");
-//		Response response = client.post(null);
-//		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-//	}
+	@Test
+	@RunAsClient
+	public void testNewEvent(){
+		
+		WebClient client = WebClient.create("http://localhost:8080/location-endpoint-test/locations/new/{" +
+				"leftAsLongitude:144.94781," +
+				"bottomAsLatitude:-37.82331," +
+				"righAsLongitude:144.98121," +
+				"topAsLatitude:-37.80301" +
+				"}");
+		client.type("application/json").accept("application/json");
+		Response response = client.post(null);
+		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+	}
 //	
 //	@Test
 //	@RunAsClient
