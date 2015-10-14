@@ -6,3 +6,8 @@
 /.deployments
 /target
 /deployments
+target
+.settings/*
+!.settings/.jsdtscope
+.project
+.classpath
