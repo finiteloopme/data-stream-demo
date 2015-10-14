@@ -140,5 +140,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	<name>Sensis Demo :: Registering Data Feed</name>
+	<name>Twitter Demo :: Search criteria</name>
 </project>

@@ -7,7 +7,7 @@
 	<artifactId>sensis-data-stream-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Sensis Demo :: Parent Project</name>
+	<name>Twitter Demo :: Parent Project</name>
 	<modules>
 		<module>register-data-feed</module>
 		<module>data-stream-cache</module>
@@ -23,6 +23,7 @@
 		<javac.target>1.6</javac.target>
 	</properties>
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
