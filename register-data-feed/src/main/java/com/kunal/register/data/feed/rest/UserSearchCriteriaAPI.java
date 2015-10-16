@@ -33,7 +33,7 @@ public class UserSearchCriteriaAPI
    @Consumes("application/json")
    public Response create(User entity)
    	throws Exception{
-	  camelRoute.configure(entity.getUser(), entity.getSearchCriteria());
+	  camelRoute.configureUserSearchCriteria(entity.getUser(), entity.getSearchCriteria());
       em.persist(entity);
       return Response.created(UriBuilder.fromResource(UserSearchCriteriaAPI.class).path(String.valueOf(entity.getId())).build()).build();
    }

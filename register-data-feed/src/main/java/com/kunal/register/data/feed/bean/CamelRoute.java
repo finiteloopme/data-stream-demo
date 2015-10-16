@@ -20,8 +20,7 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 public class CamelRoute {
 
 	private CamelContext camelContext	= null;
-	private final String DATA_STREAM_HOST	= "http4://streaming-kunal.rhcloud.com/";
-//	private final String DATA_STREAM_HOST	= "http://localhost:8080/";
+	private final String DATA_STREAM_HOST	= "http4://social-unidomain.rhcloud.com/";
 	
 	/**
 	 * 
@@ -31,9 +30,8 @@ public class CamelRoute {
 		
 	}
 	
-	public void configure(final String username, final String searchCriteria)
+	public void configureUserSearchCriteria(final String username, final String searchCriteria)
 		throws Exception{
-		
 		camelContext.addRoutes(new RouteBuilder() {
 			
 			@Override
@@ -42,19 +40,16 @@ public class CamelRoute {
 				from("twitter://"
 						// query type = search
 						+ "search?"
-//						+ "streaming/filter?"
 						// query execution type = polling
 						+ "type=polling" + "&"
-						// poll every 10 sec
-						+ "delay=10" + "&"
+						// poll every 5 sec
+						+ "delay=5" + "&"
 						+ "keywords=" + searchCriteria + "&"
 						+ "consumerKey=HjLbxF1IoN1bXENLDuMPbJsQT" + "&"
 						+ "consumerSecret=62no3XxjQGrgWzASJXkyoW2L0Rs2Ba6Qi1OWFcwilgzOC1rWwW" + "&"
 						+ "accessToken=229302807-NwkYedrDGdZ4CDxvoRcxVtH8klPqfC9Yxt0fD9Fn" + "&"
 						+ "accessTokenSecret=its7D8zTq8GEgCzxHYeCYt4g9HtswwUFBLwrv0bHjngzJ")
-					.log("\n====================\n" +
-						 "\tTweeted at place: ${body.place}\n" +
-						 "\tTweeted at location: ${body.geoLocation}")
+					.log("${body}")
 						 .marshal().json(JsonLibrary.Jackson)
 						 .log("Marshalled to JSON:\n${body}")
 					 .log("==Route Completed==");

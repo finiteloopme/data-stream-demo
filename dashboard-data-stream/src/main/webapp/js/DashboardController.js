@@ -2,7 +2,7 @@ var dashboardApp = angular.module('dashboardApp', ['ngResource']);
 
 dashboardApp.controller('DashboardCtrl', function($scope, $http, $timeout){
 	
-	$scope.hosturl = 'http://streaming-kunal.rhcloud.com//data-stream-cache/cache/streaming-data';
+	$scope.hosturl = 'http://twitter-unidomain.rhcloud.com/data-stream-cache/cache/streaming-data';
 //	$scope.hosturl = '/data-stream-cache/cache/streaming-data';
 	$scope.keys = [];
 	$scope.tweets = [];

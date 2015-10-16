@@ -40,7 +40,7 @@ public class UserSearchAPITest {
 
 	@Deployment
 	public static Archive<?> createDeployment() {
-		return ShrinkWrap.create(WebArchive.class, "location-endpoint-test.war")
+		return ShrinkWrap.create(WebArchive.class, "user-search-api-test.war")
 				.addClass(CamelRoute.class)
 				.addClass(Tweet.class)
 				.addClass(User.class)
@@ -74,31 +74,23 @@ public class UserSearchAPITest {
 		//TODO: this delay has been introduced to check the the twitter search is working.
 		// need to check this manually on the console (logs)
 		// Need to check programmatically
-		Thread.sleep(20000);
+		Thread.sleep(10000);
 	}
 	
 //	@Test
-//	public void testNewEvent1(){
-//
-//		Assert.assertEquals(Response.Status.OK.getStatusCode(), locationService.newEvent("k1", "e1").getStatus());
-//	}
-//	
-//	
-//	@Test
 //	@RunAsClient
-//	public void testNewEvent(){
+//	public void testNewEvent() throws InterruptedException{
 //		
-//		WebClient client = WebClient.create("http://localhost:8080/location-endpoint-test/locations/new/{" +
-//				"leftAsLongitude:144.94781," +
-//				"bottomAsLatitude:-37.82331," +
-//				"righAsLongitude:144.98121," +
-//				"topAsLatitude:-37.80301" +
+//		WebClient client = WebClient.create("http://localhost:8080/user-search-api-test/users/new/{" +
+//				"user:limaye," +
+//				"searchCriteria:basic" +
 //				"}");
 //		client.type("application/json").accept("application/json");
 //		Response response = client.post(null);
 //		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+//		Thread.sleep(10000);
 //	}
-//	
+
 //	@Test
 //	@RunAsClient
 //	public void testGetCache() throws IOException{

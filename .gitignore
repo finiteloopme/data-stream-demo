@@ -11,3 +11,4 @@ target
 !.settings/.jsdtscope
 .project
 .classpath
+data-stream-cache/.tern-project
