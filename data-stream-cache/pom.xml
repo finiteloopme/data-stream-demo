@@ -9,7 +9,7 @@
   </parent>
   <artifactId>data-stream-cache</artifactId>
   <packaging>war</packaging>
-  <name>Twitter Demo :: sub-system to cache search results</name>
+  <name>Twitter Demo :: Sub-system to cache search results</name>
   <dependencyManagement>
     <dependencies>
       <dependency>

@@ -52,7 +52,15 @@ public class CamelRoute {
 					.log("${body}")
 						 .marshal().json(JsonLibrary.Jackson)
 						 .log("Marshalled to JSON:\n${body}")
-					 .log("==Route Completed==");
+					.setHeader(Exchange.HTTP_METHOD, constant("POST"))
+					.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+					.to(DATA_STREAM_HOST
+							+ "data-stream-cache/"
+							+ "cache/"
+							+ "streaming-data/"
+							+ "new-event/"
+							+ "location/"
+							+ "${body}");
 			}
 		});
 		
