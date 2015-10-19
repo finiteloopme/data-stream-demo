@@ -51,7 +51,7 @@ public class CamelRoute {
 						+ "accessTokenSecret=its7D8zTq8GEgCzxHYeCYt4g9HtswwUFBLwrv0bHjngzJ")
 					.log("${body}")
 						 .marshal().json(JsonLibrary.Jackson)
-						 .log("Marshalled to JSON:\n${body}")
+						 //.log("Marshalled to JSON:\n${body}")
 					.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 					.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
 					.to(DATA_STREAM_HOST
