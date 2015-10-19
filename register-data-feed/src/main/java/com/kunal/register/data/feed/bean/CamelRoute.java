@@ -49,9 +49,9 @@ public class CamelRoute {
 						+ "consumerSecret=62no3XxjQGrgWzASJXkyoW2L0Rs2Ba6Qi1OWFcwilgzOC1rWwW" + "&"
 						+ "accessToken=229302807-NwkYedrDGdZ4CDxvoRcxVtH8klPqfC9Yxt0fD9Fn" + "&"
 						+ "accessTokenSecret=its7D8zTq8GEgCzxHYeCYt4g9HtswwUFBLwrv0bHjngzJ")
-					.log("${body}")
+					.log("${body.text}")
 						 .marshal().json(JsonLibrary.Jackson)
-						 .transform(simple("${body.text}"))
+//						 .transform(simple("${body.text}"))
 						 .log("Marshalled to JSON tweet:\n${body}")
 					.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 					.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
