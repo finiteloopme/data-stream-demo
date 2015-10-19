@@ -61,7 +61,8 @@ public class CamelRoute {
 							+ "new-event/"
 							+ ""
 							+ searchCriteria
-							+ "/")
+							+ "/"
+							+ simple("${body}"))
 					.log("==Route Completed==");
 			}
 		});
