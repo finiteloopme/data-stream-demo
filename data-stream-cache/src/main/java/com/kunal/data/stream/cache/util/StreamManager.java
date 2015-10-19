@@ -78,9 +78,12 @@ public class StreamManager {
 	
 	@POST
 	@Consumes("application/json")
-	@Path("/new-event/{key}/{eventData}")
+//	@Path("/new-event/{key}/{eventData}")
+//	public Response newEvent(@PathParam("key") String key,
+//							@PathParam("eventData") String eventData){
+	@Path("/new-event/{key}")
 	public Response newEvent(@PathParam("key") String key,
-							@PathParam("eventData") String eventData){
+							String eventData){
 	
 		logger.info("===: newEvent(" + key +"," + eventData +  ") :===");
 		List<String> keys = this.getAllKeys();

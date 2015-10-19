@@ -50,9 +50,8 @@ public class CamelRoute {
 						+ "accessToken=229302807-NwkYedrDGdZ4CDxvoRcxVtH8klPqfC9Yxt0fD9Fn" + "&"
 						+ "accessTokenSecret=its7D8zTq8GEgCzxHYeCYt4g9HtswwUFBLwrv0bHjngzJ")
 //					.log("${body.text}")
-					.transform().body().setBody(simple("${body.text}"))
+//					.transform().body().setBody(simple("${body.text}"))
 						 .marshal().json(JsonLibrary.Jackson)
-//						 .transform(simple("${body.text}"))
 						 .log("Marshalled to JSON tweet:\n${body}")
 					.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 					.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
@@ -63,7 +62,8 @@ public class CamelRoute {
 							+ "streaming-data/"
 							+ "new-event/"
 							+ searchCriteria + "/"
-							+ "${body}")
+//							+ "${body}"
+							)
 					)
 					.log("==Route Completed==");
 			}
