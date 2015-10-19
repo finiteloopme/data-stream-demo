@@ -61,7 +61,7 @@ public class CamelRoute {
 							+ "streaming-data/"
 							+ "new-event/"
 							+ searchCriteria + "/"
-							+ "${body}")
+							+ "${body.text}")
 					)
 					.log("==Route Completed==");
 			}
