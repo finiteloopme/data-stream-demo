@@ -59,8 +59,10 @@ public class CamelRoute {
 							+ "cache/"
 							+ "streaming-data/"
 							+ "new-event/"
-							+ "location/"
-							+ "${body}");
+							+ ""
+							+ searchCriteria
+							+ "/")
+					.log("==Route Completed==");
 			}
 		});
 		
