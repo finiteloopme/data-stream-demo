@@ -42,8 +42,8 @@ public class CamelRoute {
 						+ "search?"
 						// query execution type = polling
 						+ "type=polling" + "&"
-						// poll every 5 sec
-						+ "delay=5" + "&"
+						// poll every 20 sec
+						+ "delay=20" + "&"
 						+ "keywords=" + searchCriteria + "&"
 						+ "consumerKey=HjLbxF1IoN1bXENLDuMPbJsQT" + "&"
 						+ "consumerSecret=62no3XxjQGrgWzASJXkyoW2L0Rs2Ba6Qi1OWFcwilgzOC1rWwW" + "&"
@@ -54,15 +54,15 @@ public class CamelRoute {
 						 .log("Marshalled to JSON:\n${body}")
 					.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 					.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-					.to(DATA_STREAM_HOST
+					.recipientList(
+					simple(DATA_STREAM_HOST
 							+ "data-stream-cache/"
 							+ "cache/"
 							+ "streaming-data/"
 							+ "new-event/"
-							+ ""
-							+ searchCriteria
-							+ "/"
-							+ simple("${body}"))
+							+ searchCriteria + "/"
+							+ "${body}")
+					)
 					.log("==Route Completed==");
 			}
 		});
